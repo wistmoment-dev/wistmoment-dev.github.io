@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Photography</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -16,7 +17,7 @@
     }
     
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+      font-family: 'Lora', serif;
       background: #fafafa;
       color: #333;
       line-height: 1.8;
@@ -28,26 +29,31 @@
       padding: 0 20px;
     }
     
-    /* ===== Header ===== */
+    /* ===== Header with Background ===== */
     header {
-      padding: 80px 0 60px;
-      border-bottom: 1px solid #e0e0e0;
+      position: relative;
+      padding: 120px 0;
       text-align: center;
+      background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), 
+                  url('https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=1200&h=400&fit=crop') center/cover no-repeat;
+      border-bottom: 1px solid #e0e0e0;
     }
     
     h1 {
-      font-size: 42px;
+      font-size: 48px;
       font-weight: 300;
       letter-spacing: 0.05em;
       margin-bottom: 12px;
-      color: #111;
+      color: white;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
     
     .tagline {
       font-size: 16px;
-      color: #777;
+      color: rgba(255, 255, 255, 0.9);
       font-weight: 300;
       letter-spacing: 0.02em;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
     }
     
     /* ===== Navigation ===== */
@@ -132,15 +138,50 @@
       border-color: #111;
     }
     
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+    /* ===== Gallery Layout ===== */
+    .gallery-tab {
+      display: none;
+    }
+    
+    .gallery-tab.active {
+      display: block;
+    }
+    
+    .genre-description {
+      font-size: 16px;
+      color: #666;
+      text-align: center;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+    
+    /* Main image + 2x2 grid layout */
+    .gallery-section {
       margin-bottom: 40px;
     }
     
+    .main-image {
+      width: 100%;
+      aspect-ratio: 3/2;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    
+    .main-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    
     .gallery-item {
-      aspect-ratio: 1;
+      aspect-ratio: 3/2;
       background: #e8e8e8;
       border-radius: 4px;
       overflow: hidden;
@@ -164,23 +205,7 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
     
-    .gallery-tab {
-      display: none;
-    }
-    
-    .gallery-tab.active {
-      display: block;
-    }
-    
-    .genre-description {
-      font-size: 16px;
-      color: #666;
-      text-align: center;
-      margin-bottom: 40px;
-      line-height: 1.7;
-    }
-    
-    /* ===== Genre Cards ===== */
+    /* ===== Challenge Genres ===== */
     .genre-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -346,16 +371,16 @@
         font-size: 32px;
       }
       
+      header {
+        padding: 80px 0;
+      }
+      
       h2 {
         font-size: 22px;
       }
       
       section {
         padding: 50px 0;
-      }
-      
-      header {
-        padding: 50px 0 40px;
       }
       
       nav ul {
@@ -381,6 +406,10 @@
         padding: 6px 14px;
         font-size: 12px;
       }
+      
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -389,7 +418,6 @@
     <ul class="container" style="padding: 0 20px;">
       <li><a href="#about">About</a></li>
       <li><a href="#works">Works</a></li>
-      <li><a href="#genres">Genres</a></li>
       <li><a href="#policy">Policy</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -398,7 +426,7 @@
   <header id="about">
     <div class="container">
       <h1>Photography</h1>
-      <p class="tagline">Wedding, Family Photo, and more</p>
+      <p class="tagline">Moments that matter</p>
     </div>
   </header>
 
@@ -408,110 +436,63 @@
       <h2>Works</h2>
       
       <div class="gallery-tabs">
-        <button class="tab-btn active" onclick="switchTab('wedding')">Wedding</button>
-        <button class="tab-btn" onclick="switchTab('casual')">カジュアル前撮り</button>
-        <button class="tab-btn" onclick="switchTab('maternity')">マタニティ</button>
-        <button class="tab-btn" onclick="switchTab('family')">ファミリー</button>
-        <button class="tab-btn" onclick="switchTab('omiyamairi')">お宮参り</button>
-        <button class="tab-btn" onclick="switchTab('portrait')">ポートレート</button>
-        <button class="tab-btn" onclick="switchTab('event')">イベント</button>
+        <button class="tab-btn active" onclick="switchTab('couple')">Couple / Wedding</button>
+        <button class="tab-btn" onclick="switchTab('family')">Family</button>
+        <button class="tab-btn" onclick="switchTab('solo')">Solo</button>
       </div>
 
-      <!-- Wedding -->
-      <div id="wedding" class="gallery-tab active">
-        <p class="genre-description">結婚式当日の撮影から、ブライダルフォトまで対応可能です。</p>
-        <div class="gallery">
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=400&fit=crop" alt="Wedding 01"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1606011591411-07134e71a2a9?w=400&h=400&fit=crop" alt="Wedding 02"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&h=400&fit=crop" alt="Wedding 03"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=400&fit=crop" alt="Wedding 04"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1465495976519-51ea266dd293?w=400&h=400&fit=crop" alt="Wedding 05"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1520763185298-1b434c919eba?w=400&h=400&fit=crop" alt="Wedding 06"></div>
-        </div>
-      </div>
-
-      <!-- Casual Pre-shoot -->
-      <div id="casual" class="gallery-tab">
-        <p class="genre-description">自然な雰囲気の中で、二人らしい瞬間を捉えます。</p>
-        <div class="gallery">
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop" alt="Casual 01"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1495603889488-b64b27f911d8?w=400&h=400&fit=crop" alt="Casual 02"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=400&fit=crop" alt="Casual 03"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1514307352052-35b9a4fb1589?w=400&h=400&fit=crop" alt="Casual 04"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop" alt="Casual 05"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" alt="Casual 06"></div>
-        </div>
-      </div>
-
-      <!-- Maternity -->
-      <div id="maternity" class="gallery-tab">
-        <p class="genre-description">妊娠期間の大切な思い出を、優しく撮ります。</p>
-        <div class="gallery">
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1544078751-58fee2d8a03b?w=400&h=400&fit=crop" alt="Maternity 01"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1537895426551-52c02228a9f5?w=400&h=400&fit=crop" alt="Maternity 02"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1491438639943-50eaab7be16b?w=400&h=400&fit=crop" alt="Maternity 03"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1542727829-3b4f52b68c30?w=400&h=400&fit=crop" alt="Maternity 04"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&h=400&fit=crop" alt="Maternity 05"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1544727278-ca0789aeae37?w=400&h=400&fit=crop" alt="Maternity 06"></div>
+      <!-- Couple / Wedding -->
+      <div id="couple" class="gallery-tab active">
+        <p class="genre-description">結婚式当日の撮影から、ブライダルフォトまで。二人の大切な瞬間を切り取ります。</p>
+        <div class="gallery-section">
+          <div class="main-image">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=533&fit=crop" alt="Couple Wedding Main">
+          </div>
+          <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1606011591411-07134e71a2a9?w=400&h=267&fit=crop" alt="Wedding 01"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&h=267&fit=crop" alt="Wedding 02"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=267&fit=crop" alt="Wedding 03"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1465495976519-51ea266dd293?w=400&h=267&fit=crop" alt="Wedding 04"></div>
+          </div>
         </div>
       </div>
 
       <!-- Family -->
       <div id="family" class="gallery-tab">
-        <p class="genre-description">ご家族の大切な瞬間を、自然な笑顔とともに撮ります。</p>
-        <div class="gallery">
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=400&fit=crop" alt="Family 01"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=400&h=400&fit=crop" alt="Family 02"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1516331318423-f06b4a504537?w=400&h=400&fit=crop" alt="Family 03"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1501844908063-baf58fe54407?w=400&h=400&fit=crop" alt="Family 04"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1503454537688-e6694d71acc7?w=400&h=400&fit=crop" alt="Family 05"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511531054697-7075ee139bde?w=400&h=400&fit=crop" alt="Family 06"></div>
+        <p class="genre-description">ご家族の大切な瞬間。マタニティから、お宮参り、家族写真まで。自然な笑顔を引き出します。</p>
+        <div class="gallery-section">
+          <div class="main-image">
+            <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&h=533&fit=crop" alt="Family Main">
+          </div>
+          <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=400&h=267&fit=crop" alt="Family 01"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1516331318423-f06b4a504537?w=400&h=267&fit=crop" alt="Family 02"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1501844908063-baf58fe54407?w=400&h=267&fit=crop" alt="Family 03"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1503454537688-e6694d71acc7?w=400&h=267&fit=crop" alt="Family 04"></div>
+          </div>
         </div>
       </div>
 
-      <!-- Omiyamairi -->
-      <div id="omiyamairi" class="gallery-tab">
-        <p class="genre-description">赤ちゃんの成長を祝う、大切な日をお手伝いします。</p>
-        <div class="gallery">
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&h=400&fit=crop" alt="Omiyamairi 01"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1540206395-968d48ce9f75?w=400&h=400&fit=crop" alt="Omiyamairi 02"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1489329132539-33215cd12bea?w=400&h=400&fit=crop" alt="Omiyamairi 03"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1515488042361-ee00e0dae411?w=400&h=400&fit=crop" alt="Omiyamairi 04"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1503454537688-e6694d71acc7?w=400&h=400&fit=crop" alt="Omiyamairi 05"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1514306688772-cf1ae4d7c5ca?w=400&h=400&fit=crop" alt="Omiyamairi 06"></div>
-        </div>
-      </div>
-
-      <!-- Portrait -->
-      <div id="portrait" class="gallery-tab">
-        <p class="genre-description">プロフィール画像や個人写真の撮影に対応。</p>
-        <div class="gallery">
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" alt="Portrait 01"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop" alt="Portrait 02"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop" alt="Portrait 03"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop" alt="Portrait 04"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=400&fit=crop" alt="Portrait 05"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop" alt="Portrait 06"></div>
-        </div>
-      </div>
-
-      <!-- Event -->
-      <div id="event" class="gallery-tab">
-        <p class="genre-description">企業イベントや各種パーティー、記念式典の撮影。</p>
-        <div class="gallery">
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=400&h=400&fit=crop" alt="Event 01"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=400&fit=crop" alt="Event 02"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1501195557351-f3a9b1efb6f7?w=400&h=400&fit=crop" alt="Event 03"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1496337552865-f63f89e30c1c?w=400&h=400&fit=crop" alt="Event 04"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1460749411175-04a34ca5fe90?w=400&h=400&fit=crop" alt="Event 05"></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=400&h=400&fit=crop" alt="Event 06"></div>
+      <!-- Solo -->
+      <div id="solo" class="gallery-tab">
+        <p class="genre-description">個人のポートレート撮影から、イベント撮影まで。あなたらしさを表現します。</p>
+        <div class="gallery-section">
+          <div class="main-image">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=533&fit=crop" alt="Solo Main">
+          </div>
+          <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=267&fit=crop" alt="Solo 01"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=267&fit=crop" alt="Solo 02"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=267&fit=crop" alt="Solo 03"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=267&fit=crop" alt="Solo 04"></div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Challenge Genres -->
-  <section id="genres">
+  <section id="genres" style="background: #fafafa;">
     <div class="container">
       <h2>撮ってみたいジャンル</h2>
       <div class="genre-container">
