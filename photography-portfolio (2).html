@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photography</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+      background: #fafafa;
+      color: #333;
+      line-height: 1.8;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* ===== Header ===== */
+    header {
+      padding: 80px 0 60px;
+      border-bottom: 1px solid #e0e0e0;
+      text-align: center;
+    }
+    
+    h1 {
+      font-size: 42px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      color: #111;
+    }
+    
+    .tagline {
+      font-size: 16px;
+      color: #777;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+    
+    /* ===== Navigation ===== */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(250, 250, 250, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #e0e0e0;
+      padding: 12px 0;
+      z-index: 100;
+    }
+    
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      font-size: 14px;
+    }
+    
+    nav a {
+      text-decoration: none;
+      color: #555;
+      transition: color 0.3s;
+      letter-spacing: 0.05em;
+    }
+    
+    nav a:hover {
+      color: #111;
+    }
+    
+    /* ===== Section ===== */
+    section {
+      padding: 80px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    section:last-of-type {
+      border-bottom: none;
+    }
+    
+    h2 {
+      font-size: 28px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      margin-bottom: 40px;
+      color: #111;
+      text-align: center;
+    }
+    
+    /* ===== Gallery Tabs ===== */
+    .gallery-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 50px;
+      flex-wrap: wrap;
+    }
+    
+    .tab-btn {
+      padding: 8px 20px;
+      border: 1px solid #d0d0d0;
+      background: white;
+      color: #555;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: all 0.3s;
+      letter-spacing: 0.05em;
+      font-family: inherit;
+    }
+    
+    .tab-btn:hover {
+      border-color: #999;
+      color: #111;
+    }
+    
+    .tab-btn.active {
+      background: #111;
+      color: white;
+      border-color: #111;
+    }
+    
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    
+    .gallery-item {
+      aspect-ratio: 1;
+      background: #e8e8e8;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .gallery-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+    
+    .gallery-tab {
+      display: none;
+    }
+    
+    .gallery-tab.active {
+      display: block;
+    }
+    
+    .genre-description {
+      font-size: 16px;
+      color: #666;
+      text-align: center;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+    
+    /* ===== Genre Cards ===== */
+    .genre-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    
+    .genre-card {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: border-color 0.3s;
+    }
+    
+    .genre-card:hover {
+      border-color: #999;
+    }
+    
+    .genre-card h3 {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 12px;
+      color: #111;
+      letter-spacing: 0.02em;
+    }
+    
+    .genre-card p {
+      font-size: 14px;
+      color: #777;
+      line-height: 1.6;
+    }
+    
+    .badge {
+      display: inline-block;
+      background: #f0f0f0;
+      color: #666;
+      font-size: 13px;
+      padding: 4px 12px;
+      border-radius: 3px;
+      margin-top: 12px;
+      letter-spacing: 0.05em;
+    }
+    
+    /* ===== Policy ===== */
+    .policy-content {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 40px;
+      line-height: 1.9;
+    }
+    
+    .policy-content h3 {
+      font-size: 16px;
+      font-weight: 500;
+      margin: 28px 0 12px;
+      color: #111;
+      letter-spacing: 0.05em;
+    }
+    
+    .policy-content h3:first-child {
+      margin-top: 0;
+    }
+    
+    .policy-content p {
+      font-size: 15px;
+      color: #555;
+    }
+    
+    .policy-content ul {
+      margin: 12px 0 0 20px;
+      font-size: 15px;
+      color: #555;
+    }
+    
+    .policy-content li {
+      margin-bottom: 8px;
+    }
+    
+    /* ===== Wishlist ===== */
+    .wishlist-container {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 40px;
+      text-align: center;
+    }
+    
+    .wishlist-text {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+    
+    .wishlist-btn {
+      display: inline-block;
+      background: #111;
+      color: white;
+      padding: 14px 48px;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      transition: background 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+    
+    .wishlist-btn:hover {
+      background: #333;
+    }
+    
+    /* ===== Contact ===== */
+    .contact-container {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 40px;
+      text-align: center;
+    }
+    
+    .contact-text {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+    
+    .contact-btn {
+      display: inline-block;
+      background: #f0f0f0;
+      color: #333;
+      padding: 14px 40px;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      transition: background 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+    
+    .contact-btn:hover {
+      background: #e0e0e0;
+    }
+    
+    /* ===== Footer ===== */
+    footer {
+      padding: 40px 0;
+      text-align: center;
+      color: #999;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      border-top: 1px solid #e0e0e0;
+    }
+    
+    /* ===== Responsive ===== */
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 32px;
+      }
+      
+      h2 {
+        font-size: 22px;
+      }
+      
+      section {
+        padding: 50px 0;
+      }
+      
+      header {
+        padding: 50px 0 40px;
+      }
+      
+      nav ul {
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      
+      .policy-content,
+      .wishlist-container,
+      .contact-container {
+        padding: 28px;
+      }
+      
+      .genre-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .gallery-tabs {
+        gap: 8px;
+      }
+      
+      .tab-btn {
+        padding: 6px 14px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul class="container" style="padding: 0 20px;">
+      <li><a href="#about">About</a></li>
+      <li><a href="#works">Works</a></li>
+      <li><a href="#genres">Genres</a></li>
+      <li><a href="#policy">Policy</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header id="about">
+    <div class="container">
+      <h1>Photography</h1>
+      <p class="tagline">Wedding, Family Photo, and more</p>
+    </div>
+  </header>
+
+  <!-- Works with Tabs -->
+  <section id="works">
+    <div class="container">
+      <h2>Works</h2>
+      
+      <div class="gallery-tabs">
+        <button class="tab-btn active" onclick="switchTab('wedding')">Wedding</button>
+        <button class="tab-btn" onclick="switchTab('casual')">カジュアル前撮り</button>
+        <button class="tab-btn" onclick="switchTab('maternity')">マタニティ</button>
+        <button class="tab-btn" onclick="switchTab('family')">ファミリー</button>
+        <button class="tab-btn" onclick="switchTab('omiyamairi')">お宮参り</button>
+        <button class="tab-btn" onclick="switchTab('portrait')">ポートレート</button>
+        <button class="tab-btn" onclick="switchTab('event')">イベント</button>
+      </div>
+
+      <!-- Wedding -->
+      <div id="wedding" class="gallery-tab active">
+        <p class="genre-description">結婚式当日の撮影から、ブライダルフォトまで対応可能です。</p>
+        <div class="gallery">
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=400&fit=crop" alt="Wedding 01"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1606011591411-07134e71a2a9?w=400&h=400&fit=crop" alt="Wedding 02"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&h=400&fit=crop" alt="Wedding 03"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=400&fit=crop" alt="Wedding 04"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1465495976519-51ea266dd293?w=400&h=400&fit=crop" alt="Wedding 05"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1520763185298-1b434c919eba?w=400&h=400&fit=crop" alt="Wedding 06"></div>
+        </div>
+      </div>
+
+      <!-- Casual Pre-shoot -->
+      <div id="casual" class="gallery-tab">
+        <p class="genre-description">自然な雰囲気の中で、二人らしい瞬間を捉えます。</p>
+        <div class="gallery">
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop" alt="Casual 01"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1495603889488-b64b27f911d8?w=400&h=400&fit=crop" alt="Casual 02"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=400&fit=crop" alt="Casual 03"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1514307352052-35b9a4fb1589?w=400&h=400&fit=crop" alt="Casual 04"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop" alt="Casual 05"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" alt="Casual 06"></div>
+        </div>
+      </div>
+
+      <!-- Maternity -->
+      <div id="maternity" class="gallery-tab">
+        <p class="genre-description">妊娠期間の大切な思い出を、優しく撮ります。</p>
+        <div class="gallery">
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1544078751-58fee2d8a03b?w=400&h=400&fit=crop" alt="Maternity 01"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1537895426551-52c02228a9f5?w=400&h=400&fit=crop" alt="Maternity 02"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1491438639943-50eaab7be16b?w=400&h=400&fit=crop" alt="Maternity 03"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1542727829-3b4f52b68c30?w=400&h=400&fit=crop" alt="Maternity 04"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&h=400&fit=crop" alt="Maternity 05"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1544727278-ca0789aeae37?w=400&h=400&fit=crop" alt="Maternity 06"></div>
+        </div>
+      </div>
+
+      <!-- Family -->
+      <div id="family" class="gallery-tab">
+        <p class="genre-description">ご家族の大切な瞬間を、自然な笑顔とともに撮ります。</p>
+        <div class="gallery">
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=400&fit=crop" alt="Family 01"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=400&h=400&fit=crop" alt="Family 02"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1516331318423-f06b4a504537?w=400&h=400&fit=crop" alt="Family 03"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1501844908063-baf58fe54407?w=400&h=400&fit=crop" alt="Family 04"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1503454537688-e6694d71acc7?w=400&h=400&fit=crop" alt="Family 05"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511531054697-7075ee139bde?w=400&h=400&fit=crop" alt="Family 06"></div>
+        </div>
+      </div>
+
+      <!-- Omiyamairi -->
+      <div id="omiyamairi" class="gallery-tab">
+        <p class="genre-description">赤ちゃんの成長を祝う、大切な日をお手伝いします。</p>
+        <div class="gallery">
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&h=400&fit=crop" alt="Omiyamairi 01"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1540206395-968d48ce9f75?w=400&h=400&fit=crop" alt="Omiyamairi 02"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1489329132539-33215cd12bea?w=400&h=400&fit=crop" alt="Omiyamairi 03"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1515488042361-ee00e0dae411?w=400&h=400&fit=crop" alt="Omiyamairi 04"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1503454537688-e6694d71acc7?w=400&h=400&fit=crop" alt="Omiyamairi 05"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1514306688772-cf1ae4d7c5ca?w=400&h=400&fit=crop" alt="Omiyamairi 06"></div>
+        </div>
+      </div>
+
+      <!-- Portrait -->
+      <div id="portrait" class="gallery-tab">
+        <p class="genre-description">プロフィール画像や個人写真の撮影に対応。</p>
+        <div class="gallery">
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" alt="Portrait 01"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop" alt="Portrait 02"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop" alt="Portrait 03"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop" alt="Portrait 04"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=400&fit=crop" alt="Portrait 05"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop" alt="Portrait 06"></div>
+        </div>
+      </div>
+
+      <!-- Event -->
+      <div id="event" class="gallery-tab">
+        <p class="genre-description">企業イベントや各種パーティー、記念式典の撮影。</p>
+        <div class="gallery">
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=400&h=400&fit=crop" alt="Event 01"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=400&fit=crop" alt="Event 02"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1501195557351-f3a9b1efb6f7?w=400&h=400&fit=crop" alt="Event 03"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1496337552865-f63f89e30c1c?w=400&h=400&fit=crop" alt="Event 04"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1460749411175-04a34ca5fe90?w=400&h=400&fit=crop" alt="Event 05"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=400&h=400&fit=crop" alt="Event 06"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Challenge Genres -->
+  <section id="genres">
+    <div class="container">
+      <h2>撮ってみたいジャンル</h2>
+      <div class="genre-container">
+        <div class="genre-card">
+          <h3>商品撮影</h3>
+          <p>商品の魅力を引き出すライティングと構図に挑戦したいです。</p>
+          <span class="badge">チャレンジ中</span>
+        </div>
+        <div class="genre-card">
+          <h3>風景・建築</h3>
+          <p>風景の美しさや建築の表情を引き出す撮影に興味があります。</p>
+          <span class="badge">チャレンジ中</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Policy -->
+  <section id="policy">
+    <div class="container">
+      <h2>My Photography Policy</h2>
+      <div class="policy-content">
+        <h3>撮影に対する想い</h3>
+        <p>写真は瞬間を永遠に留める芸術です。私は、その場の雰囲気と感情を大切にしながら、自然で素敵なショットを心がけています。</p>
+        
+        <h3>撮影のこだわり</h3>
+        <ul>
+          <li>光と影の美しさを最大限に引き出す</li>
+          <li>被写体の自然な表情と感情を捉える</li>
+          <li>過度な加工ではなく、本来の美しさを表現する</li>
+          <li>クライアントの想いを理解し、期待以上の成果を目指す</li>
+        </ul>
+        
+        <h3>ご依頼について</h3>
+        <p>友人からのご依頼は大歓迎です。撮影内容や規模についてはお気軽にご相談ください。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wishlist -->
+  <section style="background: #fafafa;">
+    <div class="container">
+      <h2>Thank You for Your Interest</h2>
+      <div class="wishlist-container">
+        <p class="wishlist-text">ご依頼いただけましたら、心より感謝いたします。<br>撮影のお礼として、Amazonほしいものリストを用意しています。</p>
+        <button class="wishlist-btn" onclick="alert('Amazonほしいものリストのリンクをここに追加してください')">Amazonほしいものリスト</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <h2>Contact</h2>
+      <div class="contact-container">
+        <p class="contact-text">撮影のご依頼・ご相談は、下記からお気軽にお問い合わせください。<br>撮影内容や日程についてお打ち合わせさせていただきます。</p>
+        <button class="contact-btn" onclick="alert('Google フォームまたは LINE のリンクをここに追加してください')">お問い合わせ</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Your Photography. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function switchTab(tabName) {
+      // Hide all tabs
+      const tabs = document.querySelectorAll('.gallery-tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+      
+      // Show selected tab
+      document.getElementById(tabName).classList.add('active');
+      
+      // Update button styles
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      // Smooth scroll to gallery
+      document.getElementById('works').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
